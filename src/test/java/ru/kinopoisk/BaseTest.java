@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.conditions.webdriver.Url;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import java.util.Objects;
 
@@ -14,12 +15,8 @@ import static java.lang.Thread.sleep;
 public class BaseTest {
     private final String url = "https://www.kinopoisk.ru/";
 
-//    public String getUrl() {
-//        return url();
-//    }
 
-
-    @BeforeClass
+    @BeforeMethod
     public void setUp() throws InterruptedException {
         Configuration.browserSize = "1920x1080";
         Selenide.open(url);
