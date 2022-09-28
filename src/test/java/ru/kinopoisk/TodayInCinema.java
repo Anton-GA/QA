@@ -10,7 +10,7 @@ public class TodayInCinema extends BaseTest{
 
     TodayInCinemaPage todayInCinemaPage = new TodayInCinemaPage();
 
-    @BeforeMethod
+    @BeforeClass
     public void scroll() {
         todayInCinemaPage.scrollToBlock();
     }
@@ -32,13 +32,19 @@ public class TodayInCinema extends BaseTest{
     }
 
     /**
-     * Кейс №2 - Отображение сниппетов, корректное название фильмов у сниппетов, корректность года и жанра фильмов
+     * Кейс №2 - Отображение сниппетов, корректное название фильмов у сниппетов, корректность года и жанра фильмов,
+     * корректные ссылки у каждого сниппета, отображение блоков "В главной роли" и "Режиссер",
+     * корректность рейтинга у каждого сниппета, проверка отображения кнопки влево
      */
     @Test
     public void checkCarouselElements() {
         todayInCinemaPage
                 .displayedSnippets()
                 .checkFilmTitle()
-                .checkYearAndGenre();
+                .checkYearAndGenre()
+                .checkHrefOfSnippets()
+                .checkInMainRolesAndProducer()
+                .checkRating()
+                .checkRightAndLeftButtons();
     }
 }

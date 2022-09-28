@@ -36,4 +36,9 @@ public class CommonSteps {
         Assert.assertTrue(reg);
     }
 
+    public static void regexAssertRating(String regex, SelenideElement element) {
+        boolean reg = Pattern.matches(regex, element.getText());
+        Assert.assertTrue(reg);
+    }
+
 }

@@ -16,7 +16,7 @@ public class BaseTest {
     private final String url = "https://www.kinopoisk.ru/";
 
 
-    @BeforeMethod
+    @BeforeClass
     public void setUp() throws InterruptedException {
         Configuration.browserSize = "1920x1080";
         Selenide.open(url);
