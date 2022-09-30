@@ -2,29 +2,33 @@ package ru.kinopoisk;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.conditions.webdriver.Url;
+import static com.codeborne.selenide.Selenide.webdriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-
-import java.util.Objects;
-
-import static com.codeborne.selenide.WebDriverRunner.url;
+import java.time.Duration;
+import static com.codeborne.selenide.WebDriverConditions.url;
 import static java.lang.Thread.sleep;
 
-public class BaseTest {
-    private final String url = "https://www.kinopoisk.ru/";
+public abstract class BaseTest {
+    private final String url = "https://www.kinopoisk.ru/?";
 
 
     @BeforeClass
-    public void setUp() throws InterruptedException {
+    public void setUp() {
         Configuration.browserSize = "1920x1080";
         Selenide.open(url);
-        while(!Objects.equals(url(), url)) {
-            sleep(5000);
-            break;
-        }
-    }
+        webdriver().shouldHave(url(url), Duration.ofSeconds(100));
 
+
+//        label:{
+//            while(!Objects.equals(url(), url)) {
+//                sleep(50000);
+//            }
+//            if (Objects.equals(url(), url)) {
+//                sleep(500);
+//            }
+//        }
+
+    }
 
 }

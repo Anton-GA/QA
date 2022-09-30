@@ -1,13 +1,12 @@
-package ru.kinopoisk;
+package ru.kinopoisk.pageobject;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import data.RegexKinopoisk;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import org.testng.asserts.SoftAssert;
+import ru.kinopoisk.CommonSteps;
 
 import java.time.Duration;
 import java.util.regex.Pattern;
@@ -34,6 +33,7 @@ public class TodayInCinemaPage {
     private final SelenideElement producer = $(By.cssSelector("[class *='styles_additionalInfo'] > [class *= 'styles_roles'] + div"));
     private final SelenideElement leftButton = $(By.cssSelector("#today-in-cinema-block+div>section>h3+div>div+button"));
     private final SelenideElement rightButton = $(By.cssSelector("#today-in-cinema-block+div>section>h3+div>div+button+button"));
+    private final SelenideElement ticketButton = $(By.cssSelector("[class *='styles_afishaButton']"));
 
 
     /**
@@ -43,6 +43,7 @@ public class TodayInCinemaPage {
         blockToday.scrollTo();
         header.shouldBe(Condition.visible, Duration.ofSeconds(10));
     }
+
 
     /**
      *Метод для проверки отображения блока Сегодня в кино
@@ -80,17 +81,17 @@ public class TodayInCinemaPage {
      *Метод для проверки корректности ссылки при ее открытии из блока Сегодня в кино
      */
     public TodayInCinemaPage checkURLRedirectTodayInCinema() {
+        blockToday.scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"end\"}");
         CommonSteps.regexAssertUrl(RegexKinopoisk.regexOpenUrlToday, header);
         return this;
     }
 
     /**
-     *Метод для проверки корректности названий у сниппетов в карусле Сегодня в кино
+     *Метод для проверки корректности названий у сниппетов в карусели Сегодня в кино
      */
     public TodayInCinemaPage checkFilmTitle() {
         for(int i = 0; i < titleOfSnippets.size(); i++) {
-            System.out.println(titleOfSnippets.get(i).getText());
-            CommonSteps.regexAssertFilmTitle(RegexKinopoisk.regexFilmTitle, titleOfSnippets.get(i));
+            CommonSteps.regexAssertElementText(RegexKinopoisk.regexFilmTitle, titleOfSnippets.get(i));
         }
         return this;
     }
@@ -110,8 +111,7 @@ public class TodayInCinemaPage {
      */
     public TodayInCinemaPage checkYearAndGenre() {
         for(int i = 0; i < yearAndGenre.size(); i++) {
-            System.out.println(yearAndGenre.get(i).getText());
-            CommonSteps.regexAssertYearAndGenre(RegexKinopoisk.regexYearAndGenre, yearAndGenre.get(i));
+            CommonSteps.regexAssertElementText(RegexKinopoisk.regexYearAndGenre, yearAndGenre.get(i));
         }
         return this;
     }
@@ -121,7 +121,6 @@ public class TodayInCinemaPage {
      */
     public TodayInCinemaPage checkHrefOfSnippets() {
         for(int i = 0; i < hrefOfSnippets.size(); i++) {
-            System.out.println(hrefOfSnippets.get(i).getAttribute("href"));
             CommonSteps.regexAssertHref(RegexKinopoisk.regexHrefSnippets, hrefOfSnippets.get(i));
         }
         return this;
@@ -131,10 +130,13 @@ public class TodayInCinemaPage {
      *Метод для проверки отображения в главной роли и режиссера в поповер
      */
     public TodayInCinemaPage checkInMainRolesAndProducer() {
-        for(int i = 0; i < titleOfSnippets.size(); i++) {
-            titleOfSnippets.get(i).hover();
-            inMainRoles.shouldBe(Condition.visible);
-            producer.shouldBe(Condition.visible);
+        for (int i = 0; i < titleOfSnippets.size(); i++) {
+            titleOfSnippets.get(i).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"end\"}");
+            if(!Pattern.matches(RegexKinopoisk.regexSkipMovie, titleOfSnippets.get(i).getText())) {
+                titleOfSnippets.get(i).hover();
+                inMainRoles.shouldBe(Condition.visible);
+                producer.shouldBe(Condition.visible);
+            }
         }
         return this;
     }
@@ -144,8 +146,7 @@ public class TodayInCinemaPage {
      */
     public TodayInCinemaPage checkRating() {
         for(int i = 0; i < rating.size(); i++) {
-            System.out.println(rating.get(i).getText());
-            CommonSteps.regexAssertRating(RegexKinopoisk.regexRating, rating.get(i));
+            CommonSteps.regexAssertElementText(RegexKinopoisk.regexRating, rating.get(i));
         }
         return this;
     }
@@ -156,6 +157,21 @@ public class TodayInCinemaPage {
     public TodayInCinemaPage checkRightAndLeftButtons() {
         rightButton.click();
         leftButton.shouldBe(Condition.visible);
+        return this;
+    }
+
+    public TodayInCinemaPage checkButtonWithTickets() {
+        for (int i = 0; i < titleOfSnippets.size(); i++) {
+            titleOfSnippets.get(i).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"end\"}");
+            titleOfSnippets.get(i).hover();
+            ticketButton.shouldBe(Condition.visible);
+//            try {
+//                ticketButton.shouldBe(Condition.visible);
+//            } catch (ElementNotFound r) {
+//                System.out.println(titleOfSnippets.get(i).getText());
+//            }
+//            ticketButton.shouldBe(Condition.visible);
+        }
         return this;
     }
 

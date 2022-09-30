@@ -1,16 +1,19 @@
-package ru.kinopoisk;
+package ru.kinopoisk.tests;
 
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import ru.kinopoisk.BaseTest;
+import ru.kinopoisk.pageobject.TodayInCinemaPage;
 
-public class TodayInCinema extends BaseTest{
+import static com.codeborne.selenide.Selenide.page;
 
-    TodayInCinemaPage todayInCinemaPage = new TodayInCinemaPage();
+public class TodayInCinema extends BaseTest {
 
-    @BeforeClass
+
+    TodayInCinemaPage todayInCinemaPage = page(TodayInCinemaPage.class);
+
+
+    @BeforeMethod
     public void scroll() {
         todayInCinemaPage.scrollToBlock();
     }
@@ -45,6 +48,7 @@ public class TodayInCinema extends BaseTest{
                 .checkHrefOfSnippets()
                 .checkInMainRolesAndProducer()
                 .checkRating()
-                .checkRightAndLeftButtons();
+                .checkRightAndLeftButtons()
+                .checkButtonWithTickets();
     }
 }
