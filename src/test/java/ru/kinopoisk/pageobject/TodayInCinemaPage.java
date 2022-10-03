@@ -35,6 +35,8 @@ public class TodayInCinemaPage {
     private final SelenideElement rightButton = $(By.cssSelector("#today-in-cinema-block+div>section>h3+div>div+button+button"));
     private final SelenideElement ticketButton = $(By.cssSelector("[class *='styles_afishaButton']"));
 
+    private final String scrollInto = "{behavior: \"instant\", block: \"center\", inline: \"end\"}";
+
 
     /**
      * Метод для скролла к блоку Сегодня в кино
@@ -43,7 +45,6 @@ public class TodayInCinemaPage {
         blockToday.scrollTo();
         header.shouldBe(Condition.visible, Duration.ofSeconds(10));
     }
-
 
     /**
      *Метод для проверки отображения блока Сегодня в кино
@@ -81,7 +82,6 @@ public class TodayInCinemaPage {
      *Метод для проверки корректности ссылки при ее открытии из блока Сегодня в кино
      */
     public TodayInCinemaPage checkURLRedirectTodayInCinema() {
-        blockToday.scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"end\"}");
         CommonSteps.regexAssertUrl(RegexKinopoisk.regexOpenUrlToday, header);
         return this;
     }
@@ -91,6 +91,7 @@ public class TodayInCinemaPage {
      */
     public TodayInCinemaPage checkFilmTitle() {
         for(int i = 0; i < titleOfSnippets.size(); i++) {
+            blockToday.scrollIntoView(scrollInto);
             CommonSteps.regexAssertElementText(RegexKinopoisk.regexFilmTitle, titleOfSnippets.get(i));
         }
         return this;
@@ -100,6 +101,7 @@ public class TodayInCinemaPage {
      *Метод для проверки отображения каждого сниппета в карусели Сегодня в кино
      */
     public TodayInCinemaPage displayedSnippets() {
+        blockToday.scrollIntoView(scrollInto);
         for(int i = 0; i < snippets.size(); i++) {
             snippets.get(i).shouldBe(Condition.visible);
         }
@@ -111,6 +113,7 @@ public class TodayInCinemaPage {
      */
     public TodayInCinemaPage checkYearAndGenre() {
         for(int i = 0; i < yearAndGenre.size(); i++) {
+            snippets.get(i).scrollIntoView(scrollInto);
             CommonSteps.regexAssertElementText(RegexKinopoisk.regexYearAndGenre, yearAndGenre.get(i));
         }
         return this;
@@ -121,6 +124,7 @@ public class TodayInCinemaPage {
      */
     public TodayInCinemaPage checkHrefOfSnippets() {
         for(int i = 0; i < hrefOfSnippets.size(); i++) {
+            snippets.get(i).scrollIntoView(scrollInto);
             CommonSteps.regexAssertHref(RegexKinopoisk.regexHrefSnippets, hrefOfSnippets.get(i));
         }
         return this;
@@ -131,11 +135,11 @@ public class TodayInCinemaPage {
      */
     public TodayInCinemaPage checkInMainRolesAndProducer() {
         for (int i = 0; i < titleOfSnippets.size(); i++) {
-            titleOfSnippets.get(i).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"end\"}");
+            titleOfSnippets.get(i).scrollIntoView(scrollInto);
             if(!Pattern.matches(RegexKinopoisk.regexSkipMovie, titleOfSnippets.get(i).getText())) {
                 titleOfSnippets.get(i).hover();
-                inMainRoles.shouldBe(Condition.visible);
-                producer.shouldBe(Condition.visible);
+                inMainRoles.shouldBe(Condition.exist);
+                producer.shouldBe(Condition.exist);
             }
         }
         return this;
@@ -162,7 +166,7 @@ public class TodayInCinemaPage {
 
     public TodayInCinemaPage checkButtonWithTickets() {
         for (int i = 0; i < titleOfSnippets.size(); i++) {
-            titleOfSnippets.get(i).scrollIntoView("{behavior: \"instant\", block: \"center\", inline: \"end\"}");
+            titleOfSnippets.get(i).scrollIntoView(scrollInto);
             titleOfSnippets.get(i).hover();
             ticketButton.shouldBe(Condition.visible);
 //            try {

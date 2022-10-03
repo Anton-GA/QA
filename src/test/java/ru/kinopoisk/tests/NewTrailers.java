@@ -16,7 +16,9 @@ public class NewTrailers extends BaseTest {
 
     @Test
     public void checkCarouselElements() {
-        newTrailersPage.checkDisplaySnippets();
+        newTrailersPage
+                .checkDisplaySnippets()
+                .checkYearAndGenre();
     }
 
 }

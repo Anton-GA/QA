@@ -1,6 +1,8 @@
 package ru.kinopoisk.tests;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.kinopoisk.BaseTest;
 import ru.kinopoisk.pageobject.TodayInCinemaPage;
@@ -13,7 +15,7 @@ public class TodayInCinema extends BaseTest {
     TodayInCinemaPage todayInCinemaPage = page(TodayInCinemaPage.class);
 
 
-    @BeforeMethod
+    @BeforeClass
     public void scroll() {
         todayInCinemaPage.scrollToBlock();
     }
