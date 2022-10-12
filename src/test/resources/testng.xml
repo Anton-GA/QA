@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="2" thread-count="1" name="Carousels of Kinopoisk">
+    <test name="TodayInCinema">
+        <classes>
+            <class name="ru.kinopoisk.tests.TodayInCinema"/>
+        </classes>
+    </test>
+    <test name="NewTrailers">
+        <classes>
+            <class name="ru.kinopoisk.tests.NewTrailers"/>
+        </classes>
+    </test>
+</suite>
